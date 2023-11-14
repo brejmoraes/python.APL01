@@ -62,7 +62,7 @@ def get_one(id):  # Função que lê um item específico, identificado pelo índ
 
 def new(json_data):
     # print('new → ', json_data)
-    
+
     next_id = max(item["id"] for item in items) + 1
     print('max → ', next_id)
     return
