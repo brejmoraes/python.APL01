@@ -5,7 +5,7 @@ import sqlite3
 import os
 
 # Definição do caminho do banco de dados.
-database = './db/temp_db.db'
+database = './temp_db.db'
 
 # Função para obter todos os itens da tabela 'item'.
 
