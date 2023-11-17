@@ -11,7 +11,7 @@ app = Flask(__name__)
 json.provider.DefaultJSONProvider.ensure_ascii = False
 
 # Especifica a base de dados SQLite3.
-database = "./temp_db.db"
+database = "./db/temp_db.db"
 
 # Obtém todos os registros válidos de 'item'.
 # Request method → GET
@@ -51,7 +51,7 @@ def get_all():
         return {"error": f"Erro inesperado: {str(error)}"}
 
 
-@app.route("/items/<id>", methods=["GET"])
+@app.route("/items/<int:id>", methods=["GET"])
 def get_one(id):
     print(f"O ID é {id}")
     return {"Olá": "mundo"}
