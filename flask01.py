@@ -165,7 +165,7 @@ def create():
         cursor.execute(sql, sql_data)
 
         # Obter o ID da última inserção
-        inserted_id = cursor.lastrowid
+        inserted_id = int(cursor.lastrowid)
 
         # Salvar as alterações no banco de dados.
         conn.commit()
@@ -174,7 +174,7 @@ def create():
         conn.close()
 
         # Retorna com mensagem de sucesso e status HTTP "201 Created".
-        return {"success": "Registro criado com sucesso", "id": {inserted_id}}, 201
+        return {"success": "Registro criado com sucesso", "id": inserted_id}, 201
 
     except json.JSONDecodeError as e:  # Erro ao obter dados do JSON.
         return {"error": f"Erro ao decodificar JSON: {str(e)}"}, 500
@@ -207,7 +207,21 @@ def delete(id):
     # Request endpoint → /items/<id>
     # Response → JSON → { "success": "Registro apagado com sucesso", "id": id do registro }
 
-    pass
+    try:
+        
+        # Conecta ao banco de dados.
+        # Observe que 'row_factory' é desnecessário porque não receberemos dados do banco de dados.
+        conn = sqlite3.connect(database)
+        cursor = conn.cursor()
+        
+        # Query para atualizar o item no banco de dados.
+        
+        
+    except sqlite3.Error as e:  # Erro ao processar banco de dados.
+        return {"error": f"Erro ao acessar o banco de dados: {str(e)}"}, 500
+
+    except Exception as error:  # Outros erros.
+        return {"error": f"Erro inesperado: {str(error)}"}, 500
 
 
 # Roda aplicativo Flask.
