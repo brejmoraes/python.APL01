@@ -1,16 +1,26 @@
 # -*- coding: utf-8 -*-
 
-import json
+# Importa bibliotecas.
+from flask import Flask, jsonify, request, abort, make_response, json, Response
 import sqlite3
-import os
 
-# Definição do caminho do banco de dados.
-database = './temp_db.db'
+# Cria aplicativo Flask.
+app = Flask(__name__)
 
-# Função para obter todos os itens da tabela 'item'.
+# Configura o character set das transações HTTP para UTF-8.
+json.provider.DefaultJSONProvider.ensure_ascii = False
+
+# Especifica a base de dados SQLite3.
+database = "./temp_db.db"
+
+# Obtém todos os registros válidos de 'item'.
+# Request method → GET
+# Request endpoint → /items
+# Response → JSON
 
 
-def get_all_items():
+@app.route("/items", methods=["GET"])
+def get_all():
     try:
         # Conectar ao banco de dados SQLite.
         conn = sqlite3.connect(database)
@@ -40,10 +50,9 @@ def get_all_items():
     except Exception as error:
         return {"error": f"Erro inesperado: {str(error)}"}
 
-# Função para obter um item específico pelo ID.
 
-
-def get_one_item(id):
+@app.route("/items/<int:id>", methods=["GET"])
+def get_one(id):
     try:
         # Conectar ao banco de dados SQLite.
         conn = sqlite3.connect(database)
@@ -60,34 +69,16 @@ def get_one_item(id):
         if row_data:
             return dict(row_data)
         else:
-            return {"error": "Item não encontrado"}
-    
+            # Retorna um erro HTTP 400 - Bad request.
+            return {"error": "Item não encontrado"}, 400
+
     # Tratamento de exceções.
     except sqlite3.Error as error:
-        return {"error": f"Erro ao acessar o banco de dados: {str(error)}"}
+        return {"error": f"Erro ao acessar o banco de dados: {str(error)}"}, 500
     except Exception as error:
-        return {"error": f"Erro inesperado: {str(error)}"}
+        return {"error": f"Erro inesperado: {str(error)}"}, 500
 
 
-# Limpar a tela do console.
-os.system('cls')
-
-# Imprimir todos os itens formatados como JSON.
-print(
-    json.dumps(
-        get_all_items(),
-        ensure_ascii=False,
-        indent=2
-    )
-)
-
-print('+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+')
-
-# Imprimir um item específico pelo ID formatado como JSON.
-print(
-    json.dumps(
-        get_one_item(1),
-        ensure_ascii=False,
-        indent=2
-    )
-)
+# Roda aplicativo Flask.
+if __name__ == "__main__":
+    app.run(debug=True)
