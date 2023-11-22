@@ -79,6 +79,35 @@ def get_one(id):
         return {"error": f"Erro inesperado: {str(error)}"}, 500
 
 
+@app.route('/items', methods=["POST"])
+def create():
+    # Recebe os dados enviados no corpo (body) do POST.
+    post_data = request.get_json()
+    print(post_data)
+
+    # Conectar ao banco de dados SQLite.
+    conn = sqlite3.connect(database)
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+
+    # Consulta SQL para inserir um item específico por ID.
+    sql = """
+        INSERT INTO item 
+            (item_name, item_description, item_location, item_owner)
+        VALUES
+            (?, ?, ?, ?);
+        """
+    cursor.execute(sql, (
+        post_data['item_name'],
+        post_data['item_description'],
+        post_data['item_location'],
+        post_data['item_owner']
+    ))
+    conn.commit()
+    conn.close()
+    return {"success": "item cadastrado com suceso"}
+
+
 # Roda aplicativo Flask.
 if __name__ == "__main__":
     app.run(debug=True)
