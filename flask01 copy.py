@@ -13,7 +13,6 @@ json.provider.DefaultJSONProvider.ensure_ascii = False
 # Especifica a base de dados SQLite3.
 database = "./temp_db.db"
 
-
 def prefix_remove(prefix, data):
 
     # Função que remove os prefixos dos nomes dos campos de um 'dict'.
