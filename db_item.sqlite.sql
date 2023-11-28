@@ -49,4 +49,12 @@ VALUES
     ('2023-11-16 09:20:00', 'Item 4', 'Descrição do Item 4', 'Localização 4', 1, 'on'),
     ('2023-11-17 14:00:00', 'Item 5', 'Descrição do Item 5', 'Localização 5', 2, 'on');
 
-	
+	CREATE TABLE contact (
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	date DATETIME DEFAULT CURRENT_TIMESTAMP,
+	name TEXT,
+	email TEXT,
+	subject TEXT,
+	message TEXT,
+	status TEXT DEFAULT 'received'
+);
