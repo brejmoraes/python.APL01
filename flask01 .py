@@ -1,8 +1,15 @@
 # -*- coding: utf-8 -*-
 
+# Importa bibliotecas.
 from flask import Flask, request, json, render_template
+from flask_cors import CORS
+
 import sqlite3
 app = Flask(__name__)
+
+# Cria aplicativo Flask.
+app = Flask(__name__)
+CORS(app)
 
 json.provider.DefaultJSONProvider.ensure_ascii = False
 
